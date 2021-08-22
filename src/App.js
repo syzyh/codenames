@@ -30,7 +30,7 @@ function App() {
   const [allCardsData, setAllCardsData] = useState([]);
   useEffect(() => {
     setAllTypes(arrRandom([1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,4]));
-    setAllCardsData(arrRandom(rawData.split('，')).slice(0, 25));
+    setAllCardsData(arrRandom(rawData.split(',')).slice(0, 25));
   }, []);
 
   return (
