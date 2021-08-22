@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Code Names</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+      .cards {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .card {
+        width: 20%;
+        box-sizing: border-box;
+        border: 1px solid #666;
+        text-align: center;
+        height: 56px;
+        line-height: 56px;
+      }
+      .button-line {
+        margin-top: 16px;
+        text-align: center;
+      }
+      .button {
+        margin-top: 16px;
+        width: 160px;
+        height: 42px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
+  </head>
+  <body>
+    <div id="app-7">
+      <div class="cards">
+        <todo-item
+          v-for="item in cardList"
+          v-bind:data="item"
+          v-bind:key="item.word"
+          v-bind:show="show"
+        ></todo-item>
+      </div>
+      <div class="button-line">
+        <button v-on:click="showAll" class="button">{{ !show ? 'Show' : 'Hidden' }}</button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      const arrRandom = arr => {
+        return arr.sort(() => Math.random() - 0.5);
+      };
+
+      const rawData = '鼓，新娘，鼻子，秦始皇，锚，牛仔，肩膀，统治者，精神，电线，书，剃刀，踢，雾，老板，发热，绳，街道，雪崩，北京，床单，拿破仑，西装，地球，洗发水，奶酪，青蛙，牙医，牛奶，车轮，歹徒，蝴蝶，酸味，僵尸，脚步声，武则天，木乃伊，铁匠，功夫，闹钟，婚礼，哥仑布，牛头怪，大爆炸，睡觉，故宫，糖，经理，诡计，尼龙，玩偶，神经，电灯泡，长凳，裂口，饼干，雷，午餐，火山，锦衣卫，姐妹，羊，麻袋，骑兵，农场，法官，滑冰鞋，火枪手，浪花，端午节，路，胡椒粉，冰川，工艺，英里，蒙娜丽莎，口哨，杂志，铜，啤酒，帐篷，座位，粉，木偶，粉笔，体操运动员，磨坊，卷，钢笔，宝贝，夏威夷，沙拉，故事，猪，法老王，水母，听诊器，黄油，狼人，小提琴，米，比赛，泡沫，链子，枕头，梦，医生，洗澡';
+
+      const color = ['#f50', '#2db7f5', '#ffe58f', '#aaa'];
+      Vue.component('todo-item', {
+        props: ['data', 'show'],
+        data: function () {
+          return {
+            flip: false,
+            color: '#fff'
+          }
+        },
+        methods: {
+          onFlip: function () {
+            this.flip = true;
+          }
+        },
+        template: `
+          <div
+            class="card"
+            v-bind:style="{ background: flip || show ? data.color : '#fff', opacity: !flip && show ? 0.5 : 1 }"
+            v-on:click="onFlip"
+          >
+            {{ data.word }}
+          </div>
+        `
+      });
+
+      const allTypes = arrRandom([1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,4]);
+      const cardList = arrRandom(rawData.split('，'))
+        .slice(0, 25)
+        .map((word, index) => {
+          return { word, color: color[allTypes[index] - 1] };
+        })
+
+      var app7 = new Vue({
+        el: '#app-7',
+        data: {
+          show: false,
+          cardList
+        },
+        methods: {
+          showAll: function () {
+            this.show = !this.show;
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
